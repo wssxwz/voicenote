@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceNote - 语音笔记</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#1a1a1a" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="3" fill="#1a1a1a"/>
+                    <line x1="12" y1="6" x2="12" y2="9" stroke="#1a1a1a" stroke-width="2"/>
+                    <line x1="12" y1="15" x2="12" y2="18" stroke="#1a1a1a" stroke-width="2"/>
+                </svg>
+                <span>VoiceNote</span>
+            </div>
+            <button class="history-btn" onclick="app.showHistory()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                历史记录
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- State 1: Ready to Record -->
+            <div class="state state-ready active">
+                <h1 class="title">开始录音</h1>
+                <p class="subtitle">点击下方按钮开始录音</p>
+                <button class="record-btn" onclick="app.startRecording()">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- State 2: Recording -->
+            <div class="state state-recording">
+                <h1 class="title">录音中...</h1>
+                <div class="timer" id="timer">00:00</div>
+                <div class="waveform" id="waveform">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                <button class="record-btn recording" onclick="app.togglePause()">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="white" id="recordIcon">
+                        <rect x="7" y="6" width="3" height="12" rx="1"/>
+                        <rect x="14" y="6" width="3" height="12" rx="1"/>
+                    </svg>
+                </button>
+                <div class="control-buttons">
+                    <button class="control-btn" onclick="app.pauseRecording()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16" rx="1"/>
+                            <rect x="14" y="4" width="4" height="16" rx="1"/>
+                        </svg>
+                    </button>
+                    <button class="control-btn" onclick="app.stopRecording()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="6" width="12" height="12" rx="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- State 3 & 4: Recording Complete -->
+            <div class="state state-complete">
+                <h1 class="title">录音完成</h1>
+                <div class="timer" id="finalTimer">00:00</div>
+                <button class="record-btn completed">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+                <button class="save-btn" onclick="app.saveRecording()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2z"/>
+                        <path d="M13 12.67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                    </svg>
+                    保存录音
+                </button>
+
+                <!-- Transcription Section -->
+                <div class="transcription-section">
+                    <div class="section-header">
+                        <h2>转写文本</h2>
+                        <button class="ai-summary-btn" onclick="app.generateSummary()" id="summaryBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7v10c0 5.5 3.8 10.7 10 12 6.2-1.3 10-6.5 10-12V7l-10-5z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            AI 总结
+                        </button>
+                    </div>
+
+                    <!-- AI Summary Card (Initially Hidden) -->
+                    <div class="ai-summary-card" id="aiSummaryCard" style="display: none;">
+                        <div class="summary-header">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="#f59e0b">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <span>AI 智能总结</span>
+                            <button class="copy-btn" onclick="app.copySummary()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                                复制
+                            </button>
+                        </div>
+                        <div class="summary-content" id="summaryContent">
+                            <!-- Will be populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Original Text Card -->
+                    <div class="text-card">
+                        <div class="card-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <line x1="10" y1="9" x2="8" y2="9"/>
+                            </svg>
+                            <span>原始文本</span>
+                            <button class="copy-btn" onclick="app.copyOriginal()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                                复制
+                            </button>
+                        </div>
+                        <div class="text-content" id="originalText">
+                            今天的会议主要讨论了项目的进展情况。我们需要在下周完成第一阶段的开发工作。团队成员对新功能的设计方案提出了一些建议。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
