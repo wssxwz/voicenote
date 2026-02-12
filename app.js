@@ -189,9 +189,9 @@ class VoiceNoteApp {
         });
     }
 
-    // Show History (placeholder)
+    // Show History
     showHistory() {
-        alert('历史记录功能开发中...');
+        window.location.href = 'history.html';
     }
 
     // Reset to initial state

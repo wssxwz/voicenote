@@ -1,0 +1,175 @@
+/* History Page Styles */
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: #14b8a6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #0d9488;
+}
+
+.history-content {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.history-header {
+    margin-bottom: 32px;
+}
+
+.history-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.count {
+    font-size: 14px;
+    color: #999;
+}
+
+/* History List */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.record-item {
+    display: flex;
+    gap: 16px;
+    padding: 24px;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    transition: all 0.2s;
+}
+
+.record-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #d4d4d4;
+}
+
+.record-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #14b8a6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.record-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.record-header {
+    margin-bottom: 12px;
+}
+
+.record-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.record-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.delete-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    background: white;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-btn:hover {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #ef4444;
+}
+
+.record-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: #999;
+}
+
+.record-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.record-preview {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.record-tags {
+    display: flex;
+    gap: 8px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tag.has-summary {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    border: 1px solid #f59e0b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .history-content {
+        padding: 20px;
+    }
+
+    .record-item {
+        flex-direction: column;
+    }
+
+    .record-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
